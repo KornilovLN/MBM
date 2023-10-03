@@ -129,8 +129,14 @@ fn start_receive_port(){
     }
 
     //--- и счетчик
-    let mut cnt = 0;
-    println!();
+    done = false; 
+    let mut cnt:u32 = 0u32;
+    while !done {
+        cnt = md_utils::read_string("\n\tCounter cicles: ").trim().parse::<u32>().unwrap();        
+        if cnt > 20 && cnt < 1000 {
+            done = true;
+        }
+    }
 
     //--- запустить чтение порта
     md_serial::receive(port, baud, &mut cnt);

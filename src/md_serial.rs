@@ -62,7 +62,7 @@ pub fn find_ports() {
 
 
 
-pub fn receive(port_name: &str, baud_rate: u32, cnt: &mut i32) {
+pub fn receive(port_name: &str, baud_rate: u32, cnt: &mut u32) {
 
     let port = serialport::new(port_name, baud_rate)
         .timeout(Duration::from_millis(55))
@@ -78,8 +78,8 @@ pub fn receive(port_name: &str, baud_rate: u32, cnt: &mut i32) {
                 match port.read(serial_buf.as_mut_slice()) {
                     Ok(t) => {
                         io::stdout().write_all(&serial_buf[..t]).unwrap();
-                        *cnt += 1;
-                        if *cnt > 50 {
+                        *cnt -= 1;
+                        if *cnt < 1 {
                             break;
                         }
                     },
