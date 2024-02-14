@@ -16,7 +16,7 @@ use std::io;
 //use std::io::prelude::*;
 use std::io::Write;
 
-extern crate num_cpus;
+extern crate num_cpus;//use chrono::{Datelike, Timelike, Utc};
 
 extern crate datetime;
 use std::{thread, time};
@@ -35,7 +35,7 @@ pub fn get_num_cpus() -> usize {
 	num_cpus::get()
 }
 
-pub fn iron() {
+pub fn iron() {//use chrono::{Datelike, Timelike, Utc};
     let frm_num_cpus = format!("{}: {}", 
         Colour::Green.paint("Количество ядер процессора: ".to_string()),
         Colour::Yellow.paint(&get_num_cpus().to_string()));                                              
@@ -45,6 +45,7 @@ pub fn iron() {
 }
 
 /// --- Получить текущий timestamp
+#[allow(dead_code)]
 pub fn get_timestamp() -> i64 {
 	let dt = Utc::now();
 	let timestamp: i64 = dt.timestamp_micros();	
@@ -53,7 +54,7 @@ pub fn get_timestamp() -> i64 {
 
 /// --- Взять текущее значение Utc и возвратить дату и время
 /// --- Применять примерно так:
-/// --- println!("\t{}",Colour::Yellow.paint(dttm));
+/// --- println!("\t{}",Colour::Yellow.paint(dttm));//use chrono::{Datelike, Timelike, Utc};
 pub fn get_date_time() -> String {
 	let now = Utc::now();
 	let (is_common_era, year) = now.year_ce();	
@@ -79,13 +80,14 @@ pub fn waiter(pause: u64) {
 }
 
 /// --- Запись в файл
+#[allow(dead_code)]
 pub fn write_out(f: String, st: &str) -> io::Result<()> {
 	let mut out = File::create(f)?;
 	write!(out,"{}",st)?;
 	Ok(())
 } 
 
-/// --- Ввод с терминала с выводом подсказки commentn
+/// --- Ввод с терминала с выводом подсказки comment
 pub fn read_string(comment:&str) -> String {
     print!("{}", comment);
     let _ = io::stdout().flush();

@@ -1,14 +1,14 @@
-//-----------------------------------------------------------------------------
+//--------------------------------------------------------
 //--- Модуль About 
-//-----------------------------------------------------------------------------
+//--------------------------------------------------------
 //--- Author: Kornilov LN (Starmark)
 //--- Github: https://github.com/KornilovLN
 //--- e-mail: ln.KornilovStar@gmail.com
 //--- date:   11.09.2023 14:45:00
-//-----------------------------------------------------------------------------
+//--------------------------------------------------------
 //--- 
 //--- 
-//-----------------------------------------------------------------------------
+//--------------------------------------------------------
 
 extern crate datetime;
 //use std::{thread, time};
@@ -41,27 +41,35 @@ pub struct StAbout {
 }
 
 //--- Ассоциированные функции
-pub fn read_json_about() -> String { // читаем из about.json в строку res
-	let res = fs::read_to_string(PATH_ABOUT.to_string()).expect("Can't read file about.json");
+pub fn read_json_about() -> String { 
+  // читаем из about.json в строку res
+	let res = fs::read_to_string(PATH_ABOUT.to_string())
+	  .expect("Can't read file about.json");
 	res
 }
 
-pub fn get_json_about(data: &str) -> Result<StAbout> { // получаем json из прочитанной строки
+pub fn get_json_about(data: &str) -> Result<StAbout> {
+  // получаем json из прочитанной строки
 	let p: StAbout = serde_json::from_str(&data)?;
 	Ok(p)
 }
 
 pub fn about_out(p: &Result<StAbout>){
-    match p {
-        Ok(p) => {
-			println!("{}",Colour::Yellow.paint(struct_to_string(&p)));																												 
-        },   
-        Err(e) => panic!("parser -> Error! Bad reading and parsing data {}", e) 
-    }
+  match p {
+    Ok(p) => {
+      println!("{}",
+        Colour::Yellow.paint(struct_to_string(&p)));																												 
+    },   
+    Err(e) => panic!("parser-> Err! read-pars data {}", e) 
+  }
 } 
 
-pub fn save_json_about(about: &StAbout) { // Запись отредактированного файла в about.json
-    fs::write(PATH_ABOUT, serde_json::to_string_pretty(&about).unwrap()).expect("Can't write to file");
+pub fn save_json_about(about: &StAbout) {
+  // Запись отредактированного файла в about.json
+  fs::write(PATH_ABOUT,
+    serde_json::to_string_pretty(&about)
+      .unwrap())
+      .expect("Can't write to file");
 }
 
 pub fn struct_to_string(st: &StAbout) -> String {
@@ -94,18 +102,18 @@ pub fn get_json_from_file() {
 
 pub fn target(prj_name: &str, text: &str) {
 	let dttm = md_utils::get_date_time();
-	println!("\t--- О программе ---------------------------------------------------------");
+	println!("\t--- О программе -------------------------");
 	println!("\t{}",Colour::Yellow.paint(prj_name));	
 	println!("\t{}",Colour::Yellow.paint(text));	
 	println!("\t{}",Colour::Yellow.paint(dttm));
-	println!("\t-------------------------------------------------------------------------");
+	println!("\t-----------------------------------------");
 }
 
-//===================================================================================
+//========================================================
 
 impl StAbout {
-    pub fn new(
-		firstn: &'static str, 
+  pub fn new(
+    firstn: &'static str, 
 		secondn: &'static str, 
 		mainn: &'static str,
 		auth: &'static str, 
@@ -114,7 +122,7 @@ impl StAbout {
 		dttm: &'static str,
 		) -> StAbout {
 			  Self{ firstname: firstn.to_string(), 
-			  		secondname: secondn.to_string(), 
+		   		secondname: secondn.to_string(), 
 					mainname: mainn.to_string(),
 					author: auth.to_string(), 
 					github: gith.to_string(),
@@ -123,11 +131,12 @@ impl StAbout {
 			  }  
 	}
 
+  #[allow(dead_code)]
 	pub fn out(&self) {
-	    //target();
-	    println!("\t--- About.out() ---------------------------------------------------------");
-		println!("{}",Colour::Green.paint(struct_to_string(&self))); 
-		println!("\t-------------------------------------------------------------------------\n");
+    println!("\t--- About.out() -----------------------");
+    println!("{}",
+      Colour::Green.paint(struct_to_string(&self))); 
+    println!("\t-------------------------------------\n");
 	}
 }
 
